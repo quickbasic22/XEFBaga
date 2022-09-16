@@ -9,7 +9,8 @@ namespace XEFBaga.ViewModels
 {
     public class NewItemViewModel : BaseViewModel
     {
-        private string text;
+        private string name;
+        private string country;
         private string description;
 
         public NewItemViewModel()
@@ -22,14 +23,20 @@ namespace XEFBaga.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(text)
+            return !String.IsNullOrWhiteSpace(name)
+                && !String.IsNullOrWhiteSpace(country)
                 && !String.IsNullOrWhiteSpace(description);
         }
 
-        public string Text
+        public string Name
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+        public string Country
+        {
+            get => country;
+            set => SetProperty(ref country, value);
         }
 
         public string Description
@@ -49,10 +56,10 @@ namespace XEFBaga.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
+            Destination newItem = new Destination()
             {
-                Id = Guid.NewGuid().ToString(),
-                Text = Text,
+                Name = Name,
+                Country = Country,
                 Description = Description
             };
 

@@ -8,15 +8,14 @@ using XEFBaga.Views;
 namespace XEFBaga
 {
     public partial class App : Application
-    {
-        public App()
+    {  
+      public App()
         {
             InitializeComponent();
-            BagaContext context = new BagaContext();
-            DependencyService.Register<MockDataStore>();
+           DependencyService.Register<BagaContext>();
             MainPage = new AppShell();
+           
         }
-
         protected override void OnStart()
         {
         }

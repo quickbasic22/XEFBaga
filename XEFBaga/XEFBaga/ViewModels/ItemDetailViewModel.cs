@@ -9,24 +9,29 @@ namespace XEFBaga.ViewModels
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
     public class ItemDetailViewModel : BaseViewModel
     {
-        private string itemId;
-        private string text;
+        private int itemId;
+        private string name;
+        private string country;
         private string description;
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public string Text
+        public string Name
         {
-            get => text;
-            set => SetProperty(ref text, value);
+            get => name;
+            set => SetProperty(ref name, value);
         }
-
+        public string Country
+        {
+            get => country;
+            set => SetProperty(ref country, value);
+        }
         public string Description
         {
             get => description;
             set => SetProperty(ref description, value);
         }
 
-        public string ItemId
+        public int ItemId
         {
             get
             {
@@ -39,13 +44,14 @@ namespace XEFBaga.ViewModels
             }
         }
 
-        public async void LoadItemId(string itemId)
+        public async void LoadItemId(int itemId)
         {
             try
             {
                 var item = await DataStore.GetItemAsync(itemId);
-                Id = item.Id;
-                Text = item.Text;
+                Id = item.DestinationId;
+                Name = item.Name;
+                Country = item.Country;
                 Description = item.Description;
             }
             catch (Exception)

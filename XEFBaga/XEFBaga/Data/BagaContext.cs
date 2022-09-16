@@ -9,11 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using XEFBaga.Models;
 using System.IO;
+using XEFBaga.Services;
 
 namespace XEFBaga.Data
 {
-    public class BagaContext : DbContext
+    public class BagaContext : DbContext, IDataStore<Destination>
     {
+        BagaContext context = new BagaContext();
         public BagaContext()
         {
             Database.EnsureCreated();
@@ -45,6 +47,39 @@ namespace XEFBaga.Data
         public DbSet<ActivityTrip> ActivityTrip { get; set; }
         public DbSet<Person> People { get; set; }
         public DbSet<PersonPhoto> PersonPhotos { get; set; }
+
+        public async Task<bool> AddItemAsync(Destination item)
+        {
+            context.Destinations.Add(item);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> UpdateItemAsync(Destination item)
+        {
+            var oldItem = context.Destinations.Where((Destination arg) => arg.DestinationId == item.DestinationId).FirstOrDefault();
+            context.Destinations.Remove(oldItem);
+            context.Destinations.Add(item);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteItemAsync(int id)
+        {
+            var oldItem = context.Destinations.Where((Destination arg) => arg.DestinationId == id).FirstOrDefault();
+            context.Destinations.Remove(oldItem);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<Destination> GetItemAsync(int id)
+        {
+            return await Task.FromResult(context.Destinations.FirstOrDefault(s => s.DestinationId == id));
+        }
+
+        public async Task<IEnumerable<Destination>> GetItemsAsync(bool forceRefresh = false)
+        {
+            return await Task.FromResult(context.Destinations);
+        }
 
     }
 }

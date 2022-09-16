@@ -12,20 +12,19 @@ namespace XEFBaga.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
-        private Item _selectedItem;
-
-        public ObservableCollection<Item> Items { get; }
+        private Destination _selectedItem;
+        public ObservableCollection<Destination> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<Destination> ItemTapped { get; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Destination>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Destination>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
         }
@@ -59,7 +58,7 @@ namespace XEFBaga.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Destination SelectedItem
         {
             get => _selectedItem;
             set
@@ -74,13 +73,13 @@ namespace XEFBaga.ViewModels
             await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Destination item)
         {
             if (item == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.DestinationId}");
         }
     }
 }

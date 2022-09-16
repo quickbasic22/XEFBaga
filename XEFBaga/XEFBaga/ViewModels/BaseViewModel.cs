@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
 using Xamarin.Forms;
-
 using XEFBaga.Models;
 using XEFBaga.Services;
 
@@ -12,8 +10,8 @@ namespace XEFBaga.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-
+        public IDataStore<Destination> DataStore => DependencyService.Get<IDataStore<Destination>>();
+  
         bool isBusy = false;
         public bool IsBusy
         {

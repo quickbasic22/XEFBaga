@@ -28,5 +28,7 @@ namespace XEFBaga.Views
             base.OnAppearing();
             _viewModel.OnAppearing();
         }
+
+        
     }
 }

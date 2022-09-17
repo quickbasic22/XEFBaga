@@ -2,9 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
-
 using XEFBaga.Models;
 using XEFBaga.Views;
 
@@ -17,6 +16,7 @@ namespace XEFBaga.ViewModels
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
         public Command<Destination> ItemTapped { get; }
+        public Command<Destination> DeleteCommand { get; set; }
 
         public ItemsViewModel()
         {
@@ -27,6 +27,14 @@ namespace XEFBaga.ViewModels
             ItemTapped = new Command<Destination>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
+            DeleteCommand = new Command<Destination>(OnDeleteItem);
+        }
+
+        private async void OnDeleteItem(object obj)
+        {
+            var destination = obj as Destination;
+            Items.Remove(destination);
+            await DataStore.DeleteItemAsync(destination.DestinationId);
         }
 
         async Task ExecuteLoadItemsCommand()

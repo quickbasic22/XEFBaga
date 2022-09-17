@@ -47,15 +47,17 @@ namespace XEFBaga.Data
         public async Task<bool> AddItemAsync(Destination item)
         {
             item.Photo = new byte[] { 0, 1, 1, 0 };
-            Destinations.Add(item);
+           await Destinations.AddAsync(item).Result.Context.SaveChangesAsync();
+
             return await Task.FromResult(true);
         }
 
         public async Task<bool> UpdateItemAsync(Destination item)
         {
             var oldItem = Destinations.Where((Destination arg) => arg.DestinationId == item.DestinationId).FirstOrDefault();
-            Destinations.Remove(oldItem);
-            Destinations.Add(item);
+            
+           await Destinations.Update(item).Context.SaveChangesAsync();
+            await Destinations.Remove(oldItem).Context.SaveChangesAsync();
 
             return await Task.FromResult(true);
         }
@@ -63,7 +65,9 @@ namespace XEFBaga.Data
         public async Task<bool> DeleteItemAsync(int id)
         {
             var oldItem = Destinations.Where((Destination arg) => arg.DestinationId == id).FirstOrDefault();
-            Destinations.Remove(oldItem);
+            
+
+            await Destinations.Remove(oldItem).Context.SaveChangesAsync();
 
             return await Task.FromResult(true);
         }

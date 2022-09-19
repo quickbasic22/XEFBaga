@@ -5,8 +5,8 @@
              x:DataType="viewmodels:ItemDetailViewModel"
              x:Class="XEFBaga.Views.ItemDetailPage"
              Title="{Binding Title}">
-
-    <StackLayout Spacing="20" Padding="15">
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
         <Label Text="Id:" FontSize="Medium" />
         <Label Text="{Binding Id}" FontSize="Small"/>
         <Label Text="Name:" FontSize="Medium" />
@@ -16,6 +16,6 @@
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Description}" FontSize="Small"/>
         <Button Text="Delete Activity" Command="{Binding DeleteCommand}" />
-    </StackLayout>
-    
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

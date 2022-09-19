@@ -13,6 +13,19 @@ namespace XEFBaga.ViewModels
         private string name;
         private string country;
         private string description;
+        public Command DeleteCommand { get; set; }
+
+        public ItemDetailViewModel()
+        {
+            DeleteCommand = new Command(OnDelete);
+        }
+
+        private async void OnDelete(object obj)
+        {
+           await DataStore.DeleteItemAsync(Id);
+           await Shell.Current.GoToAsync("..");
+        }
+
         public int Id { get; set; }
 
         public string Name

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewmodels="clr-namespace:XEFBaga.ViewModels" 
+             x:DataType="viewmodels:LodgingDetailViewModel"
+             x:Class="XEFBaga.Views.LodgingDetailPage"
+             Title="{Binding Title}">
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+        <Label Text="Id:" FontSize="Medium" />
+        <Label Text="{Binding lodgingId}" FontSize="Small"/>
+        <Label Text="Name:" FontSize="Medium" />
+        <Label Text="{Binding Name}" FontSize="Small"/>
+        <Label Text="Owner:" FontSize="Medium" />
+        <Label Text="{Binding Owner}" FontSize="Small"/>
+        <Label Text="IsResort:" FontSize="Medium" />
+        <CheckBox IsChecked="{Binding IsResort}" />
+        <Button Text="Delete Lodging" Command="{Binding DeleteCommand}" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

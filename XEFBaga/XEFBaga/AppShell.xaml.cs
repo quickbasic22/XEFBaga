@@ -13,6 +13,8 @@ namespace XEFBaga
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(LodgingDetailPage), typeof(LodgingDetailPage));
+            Routing.RegisterRoute(nameof(NewLodgingPage), typeof(NewLodgingPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

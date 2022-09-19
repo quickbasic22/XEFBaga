@@ -8,14 +8,14 @@ using XEFBaga.ViewModels;
 
 namespace XEFBaga.Views
 {
-    public partial class NewItemPage : ContentPage
+    public partial class NewLodgingPage : ContentPage
     {
-        public Item item { get; set; }
+        public Lodging Lodging { get; set; }
 
-        public NewItemPage()
+        public NewLodgingPage()
         {
             InitializeComponent();
-            BindingContext = new NewItemViewModel();
+            BindingContext = new NewLodgingViewModel();
         }
     }
 }

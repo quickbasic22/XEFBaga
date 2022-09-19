@@ -13,7 +13,7 @@ using XEFBaga.Services;
 
 namespace XEFBaga.Data
 {
-    public class BagaContext : DbContext, IDataStore<Destination>
+    public class BagaContext : DbContext, IDataStore<Destination>, ILodgingDataStore<Lodging>
     {
         public BagaContext()
         {
@@ -82,5 +82,41 @@ namespace XEFBaga.Data
             return await Task.FromResult(Destinations);
         }
 
+        public async Task<bool> AddLodgingAsync(Lodging item)
+        {
+            await Lodgings.AddAsync(item).Result.Context.SaveChangesAsync();
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> UpdateLodgingAsync(Lodging item)
+        {
+            var oldItem = Lodgings.Where((Lodging arg) => arg.lodgingId == item.lodgingId).FirstOrDefault();
+
+            await Lodgings.Update(item).Context.SaveChangesAsync();
+            await Lodgings.Remove(oldItem).Context.SaveChangesAsync();
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteLodgingAsync(int id)
+        {
+            var oldItem = Lodgings.Where((Lodging arg) => arg.lodgingId == id).FirstOrDefault();
+
+
+            await Lodgings.Remove(oldItem).Context.SaveChangesAsync();
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<Lodging> GetLodgingAsync(int id)
+        {
+            return await Task.FromResult(Lodgings.FirstOrDefault(s => s.lodgingId == id));
+        }
+
+        public async Task<IEnumerable<Lodging>> GetLodgingsAsync(bool forceRefresh = false)
+        {
+            return await Task.FromResult(Lodgings);
+        }
     }
 }

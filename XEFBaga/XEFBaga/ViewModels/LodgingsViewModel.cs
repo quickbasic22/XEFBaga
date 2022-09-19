@@ -9,39 +9,32 @@ using XEFBaga.Views;
 
 namespace XEFBaga.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class LodgingsViewModel : BaseViewModel
     {
-        private Destination _selectedItem;
-        public ObservableCollection<Destination> Items { get; }
+        private Lodging _selectedItem;
+        public ObservableCollection<Lodging> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Destination> ItemTapped { get; }
-        public Command<Destination> DeleteCommand { get; set; }
-        public Command NavigateToLodgingsCommand { get; set; }
+        public Command<Lodging> ItemTapped { get; }
+        public Command<Lodging> DeleteCommand { get; set; }
 
-        public ItemsViewModel()
+        public LodgingsViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Destination>();
+            Items = new ObservableCollection<Lodging>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Destination>(OnItemSelected);
+            ItemTapped = new Command<Lodging>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
-            DeleteCommand = new Command<Destination>(OnDeleteItem);
-            NavigateToLodgingsCommand = new Command(GoToLodging);
-        }
-
-        private async void GoToLodging(object obj)
-        {
-           await Shell.Current.GoToAsync("LodgingsPage");
+            DeleteCommand = new Command<Lodging>(OnDeleteItem);
         }
 
         private async void OnDeleteItem(object obj)
         {
-            var destination = obj as Destination;
-            Items.Remove(destination);
-            await DataStore.DeleteItemAsync(destination.DestinationId);
+            var lodging = obj as Lodging;
+            Items.Remove(lodging);
+            await DataStore.DeleteItemAsync(lodging.lodgingId);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -51,7 +44,7 @@ namespace XEFBaga.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await LodgingDataStore.GetLodgingsAsync();
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -73,7 +66,7 @@ namespace XEFBaga.ViewModels
             SelectedItem = null;
         }
 
-        public Destination SelectedItem
+        public Lodging SelectedItem
         {
             get => _selectedItem;
             set
@@ -85,16 +78,16 @@ namespace XEFBaga.ViewModels
 
         private async void OnAddItem(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await Shell.Current.GoToAsync(nameof(NewLodgingPage));
         }
 
-        async void OnItemSelected(Destination item)
+        async void OnItemSelected(Lodging item)
         {
             if (item == null)
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.DestinationId}");
+            await Shell.Current.GoToAsync($"{nameof(LodgingDetailPage)}?{nameof(LodgingDetailViewModel.ItemId)}={item.lodgingId}");
         }
     }
 }

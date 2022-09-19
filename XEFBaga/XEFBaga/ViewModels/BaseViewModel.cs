@@ -11,6 +11,7 @@ namespace XEFBaga.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Destination> DataStore => DependencyService.Get<IDataStore<Destination>>();
+        public ILodgingDataStore<Lodging> LodgingDataStore => DependencyService.Get<ILodgingDataStore<Lodging>>();
   
         bool isBusy = false;
         public bool IsBusy
